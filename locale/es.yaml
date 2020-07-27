@@ -1,0 +1,86 @@
+sample: Datos de muestra
+emissions: Emisiones CO2
+population: Población
+leaders: Líderes sociales asesinados en Colombia
+select_sample: Selecciona una muestra
+paste: Copiar & pegar
+paste_pl: Selecciona tu data y pégala aquí
+upload_doc: Subir CSV/XLSX 
+upload_lb: Click en BUSCAR y elige tu archivo
+upload_bt_lb: BUSCAR
+upload_pl: Sube tu data
+google: Importar desde Google sheet
+google_sh_lb: Pega la url pública
+google_sh_pl: https://docs.google.com/spreadsheets/...
+google_sh_pg_lb: Pestaña a leer
+upload_data: Carga de datos
+view_data: Vista de datos
+var_selector: Selecciona variables a graficar
+edit_viz: Diseño de visualización
+view_viz: Vista de visualización
+viz_type: Tipo de visualización
+titles: Títulos
+colors: Colores
+title: Título
+subtitle: Subtítulo
+caption: Créditos
+hor_title: Título eje horizontal
+ver_title: Título eje vertical
+theme: Tema
+background_color: Color de fondo
+graph_style: Estilo gráfico
+palette_colors: Paleta
+color_by: Colorear por
+datalabels: Etiquetas de datos
+dataLabels_show: Mostrar etiqueta
+dataLabels_format_sample: Formato numérico
+dataLabels_size: Tamaño fuente
+dataLabels_text_outline: Contorno
+summarize_num: Procesamiento números
+agg: Agregación
+agg_info: Puedes escoger el tipo de procesamiento de tu variable númerica.
+sum: Total
+mean: Promedio
+median: Mediana
+percentage: Calcular porcentaje
+sort: Ordenar por resultado numérico
+noypunto: Sin orden
+asc: Ascendente
+desc: Descendente
+slice_n: Ranking
+format_num_sample: Formato Numérico
+suffix: Sufijo
+prefix: Prefijo
+summarize_cat: Procesamiento categorías
+order: Ordenar según categorías 
+format_cat_sample: Formato de categorías
+label_wrap: Cortar palabras
+chart: Gráfico
+graph_type: Tipo de gráfico
+tooltip: Tooltip
+orientation: Orientación
+grouped: Agrupadas
+stacked: Apiladas
+spline: Spline
+highlight_value: Resaltar categoría
+highlight_value_color: Color
+process_na: Tratamiento de valores faltantes (NA)
+drop_na: Remover NA
+na_label: Etiqueta NA
+legend: Leyenda
+drop_na_legend: Remover NA de leyenda
+order_legend: Ordenar categorías
+label_wrap_legend: Cortar palabras
+info_modal: Elige un formato
+download: Descarga
+downloadImage: Descarga
+branding_include: Incluir logo
+legend_show: Mostrar leyenda
+legend_y_position: Posición vertical
+legend_layout: Layot
+legend_align: Alineación
+legend_verticalAlign: Alineación vertical
+legend_reversed: Reversar items
+legend_itemMarginTop: Margen superior de items
+legend_itemMarginBottom: Margen inferior de items
+download_plot: Descargas

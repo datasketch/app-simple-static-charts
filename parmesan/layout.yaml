@@ -1,0 +1,68 @@
+titles:
+  label: titles
+  inputs:
+    - title
+    - subtitle
+    - caption
+    - hor_title
+    - ver_title
+graph_style:
+  label: graph_style
+  inputs:
+    - theme
+    - background_color
+    - color_by
+    - palette_colors
+datalabels:
+  label: datalabels
+  inputs:
+    - dataLabels_show 
+    - dataLabels_format_sample
+    - dataLabels_size
+    - dataLabels_color
+    - dataLabels_text_outline
+chart:
+  label: chart
+  inputs:
+    - sort
+    - orientation
+    - graph_type
+    - highlight_value
+    - highlight_value_color
+summarize_num:
+  label: summarize_num
+  inputs:
+    - agg
+    - percentage
+    - format_num_sample
+    - prefix
+    - suffix
+summarize_cat:
+  label: summarize_cat
+  inputs:
+    - format_cat_sample
+    - order
+    - label_wrap
+process_na:
+  label: process_na
+  inputs:
+    - drop_na
+    - na_label
+legend:
+  label: legend
+  inputs: 
+    - legend_show
+    - drop_na_legend
+    - order_legend
+    - label_wrap_legend
+    - legend_y_position
+    - legend_layout
+    - legend_align
+    - legend_verticalAlign
+    - legend_reversed
+    - legend_itemMarginTop
+    - legend_itemMarginBottom 
+logo:
+  label: logo
+  inputs:
+    - branding_include

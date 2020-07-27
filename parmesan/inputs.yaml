@@ -1,0 +1,430 @@
+---
+title:
+  show: true
+  input_type: textInput
+  input_params:
+    label: title
+    value:
+subtitle:
+  show: true
+  input_type: textInput
+  input_params:
+    label: subtitle
+    value:
+caption:
+  show: true
+  input_type: textInput
+  input_params:
+    label: caption
+    value: 
+hor_title:
+  show: true
+  show_if:
+    viz_select():
+      is_any_of: [bar, line, area]
+  input_type: textInput
+  input_params:
+    label: hor_title
+    value: hor_title()
+ver_title:
+  show: true
+  show_if:
+    viz_select():
+      is_any_of: [bar, line, area]
+  input_type: textInput
+  input_params:
+    label: ver_title
+    value: ver_title()
+theme:
+  show: true
+  input_type: selectizeInput
+  input_params:
+    label: theme
+    choices:
+      Light:
+      - light
+      Dark:
+      - dark
+background_color:
+  show: true
+  input_type: colorPaletteInput
+  input_params:
+    label: background_color
+    colors: background()
+palette_colors:
+  show: true
+  input_type: colorPaletteInput
+  input_params:
+    label: palette_colors
+    colors: agg_palette()
+dataLabels_show:
+  show: true
+  input_type: checkboxInput
+  input_params:
+    label: dataLabels_show
+    value: false
+dataLabels_format_sample:
+  show: true
+  show_if:
+    show_dataLabels_format():
+      equals: true
+  input_type: textInput
+  input_params:
+    label: dataLabels_format_sample
+    value: "1,234."
+dataLabels_size:
+  show: true
+  show_if:
+    show_dataLabels_format():
+      equals: true
+  input_type: numericInput
+  input_params:
+    label: dataLabels_size
+    value: 11
+    min: 1
+    max: 30
+dataLabels_color:
+  show: true
+  show_if:
+    show_dataLabels_format():
+      equals: true
+  input_type: colorPaletteInput
+  input_params:
+    label: dataLabels_color
+    colors: "#2e3b42"
+dataLabels_text_outline:
+  show: true
+  show_if:
+    show_dataLabels_format():
+      equals: true
+  input_type: checkboxInput
+  input_params:
+    label: dataLabels_text_outline
+    value: true
+agg:
+  show: true
+  show_if:
+    hasdataNum():
+      equals: true
+  input_type: selectizeInput
+  input_params:
+    label: agg
+    choices: agg_opts()
+  input_info:
+    icon: info-circle
+    text: agg_info
+graph_type:
+  show: true
+  show_if_all:
+    viz_select():
+      equals: bar
+    numberCats():
+      equals: 2
+  input_type: radioButtons
+  input_params:
+    label: graph_type
+    choices: bar_type_opts()
+drop_na:
+  show: true
+  show_if:
+    hasdataNA():
+      equals: true
+  input_type: checkboxInput
+  input_params:
+    label: drop_na
+    value: false
+na_label: 
+  show: true
+  show_if_all:
+   hasdataNA():
+      equals: true
+   input_drop_na():
+      equals: false
+  input_type: textInput
+  input_params:
+    label: na_label
+    value: "(NA)"
+percentage:
+  show: true
+  input_type: checkboxInput
+  input_params:
+    label: percentage
+    value: false
+sort:
+  show: true
+  input_type: selectizeInput
+  input_params:
+    label: sort
+    choices: sort_opts()
+slice_n:
+  show: true
+  show_if_all:
+   numberCats():
+      equals: 1
+  input_type: sliderInput
+  input_params:
+    label: slice_n
+    min: 1
+    max: num_cat()
+    step: 1
+    value: num_cat()
+order:
+  show: true
+  input_type: selectizeInput
+  input_params:
+    label: order
+    choices: order_opts()
+    selected: 
+    multiple: true
+    options:
+      plugins:
+      - - remove_button
+      - - drag_drop
+color_by:
+  show: true
+  show_if_all:
+    numberCats():
+      equals: 1
+  input_type: selectizeInput
+  input_params:
+    label: color_by
+    choices: color_by_opts()
+    selected: null
+    multiple: true
+    options: 
+        maxItems:
+        - 1
+format_num_sample:
+  show: true
+  input_type: textInput
+  input_params:
+    label: format_num_sample
+    value: "1,234.5"
+format_cat_sample:
+  show: true
+  input_type: selectizeInput
+  input_params:
+    label: format_cat_sample
+    choices: format_cat_opts()
+    selected: 
+    multiple: true
+    options: 
+        maxItems:
+        - 1
+label_wrap:
+  show: true
+  input_type: sliderInput
+  input_params:
+    label: label_wrap
+    min: 1
+    max: 100
+    step: 1
+    value: 12
+suffix:
+  show: true
+  input_type: textInput
+  input_params:
+    label: suffix
+    value:
+prefix:
+  show: true
+  input_type: textInput
+  input_params:
+    label: prefix
+    value:
+tooltip:
+  show: true
+  input_type: textInput
+  input_params:
+    label: tooltip
+    value:
+  input_info:
+    icon: info-circle
+    text: tooltip_info
+orientation:
+  show: true
+  show_if_all:
+    viz_select():
+      equals: bar
+  input_type: selectizeInput
+  input_params:
+    label: Orientation
+    choices:
+      Vertical:
+      - ver
+      Horizotal:
+      - hor
+    selected: ver
+highlight_value:
+  show: true
+  show_if:
+   numberCats():
+      equals: 1
+  input_type: selectizeInput
+  input_params:
+    label: highlight_value
+    choices: order_opts()
+    selected: 
+    multiple: true
+    options:
+      plugins:
+      - - remove_button
+      - - drag_drop
+highlight_value_color:
+  show: true
+  show_if_all:
+   numberCats():
+      equals: 1
+   highlightNull():
+      equals: false
+  input_type: colorPaletteInput
+  input_params:
+    label: highlight_value_color
+    colors: "#e3bd29"
+branding_include:
+  show: true
+  input_type: checkboxInput
+  input_params:
+    label: branding_include
+    value: true
+legend_show:
+  show: true
+  show_if:
+   conditional_legend_show():
+     equals: true
+  input_type: checkboxInput
+  input_params:
+    label: legend_show
+    value: true    
+legend_y_position:
+  show_if:
+   conditional_legend_show():
+     equals: true
+   input_legend_show():
+     equals: true
+  show: true
+  input_type: sliderInput
+  input_params:
+    label: legend_y_position
+    min: -500
+    max: 100
+    step: 5
+    value: -30
+legend_layout:
+  show: true
+  show_if:
+   conditional_legend_show():
+     equals: true
+   input_legend_show():
+     equals: true
+  input_type: selectizeInput
+  input_params:
+    label: legend_layout
+    choices: legend_layout_opts()
+legend_align:
+  show: true
+  show_if:
+   conditional_legend_show():
+     equals: true
+   input_legend_show():
+     equals: true
+  input_type: selectizeInput
+  input_params:
+    label: legend_layout
+    choices: legend_align_opts()
+legend_verticalAlign: 
+  show: true
+  show_if:
+   conditional_legend_show():
+     equals: true
+   input_legend_show():
+     equals: true
+  input_type: selectizeInput
+  input_params:
+    label: legend_layout
+    choices: legend_verticalAlign_opts()
+legend_reversed: 
+  show: true
+  show_if:
+   conditional_legend_show():
+     equals: true
+   input_legend_show():
+     equals: true
+  input_type: checkboxInput
+  input_params:
+    label: legend_reversed
+    value: false
+legend_itemMarginTop:
+  show: true
+  show_if:
+   conditional_legend_show():
+     equals: true
+   input_legend_show():
+     equals: true
+  input_type: sliderInput
+  input_params:
+    label: legend_itemMarginTop
+    min: -30
+    max: 30
+    step: 1
+    value: 0
+legend_itemMarginBottom:
+  show: true
+  show_if:
+   conditional_legend_show():
+     equals: true
+   input_legend_show():
+     equals: true
+  input_type: sliderInput
+  input_params:
+    label: legend_itemMarginBottom
+    min: -30
+    max: 30
+    step: 1
+    value: 0
+label_wrap_legend:
+  show: true
+  show_if:
+   conditional_legend_show():
+     equals: true
+   input_legend_show():
+     equals: true
+   numberCats():
+     equals: 2
+  input_type: sliderInput
+  input_params:
+    label: label_wrap_legend
+    min: 1
+    max: 100
+    step: 1
+    value: 30
+drop_na_legend:
+  show: true
+  show_if:
+   conditional_legend_show():
+     equals: true
+   input_legend_show():
+     equals: true
+  input_type: checkboxInput
+  input_params:
+    label: drop_na_legend
+    value: false
+order_legend:
+  show: true
+  show_if_all:
+    viz_select():
+      equals: bar
+    numberCats():
+      equals: 2
+    input_legend_show():
+      equals: true
+  input_type: selectizeInput
+  input_params:
+    label: order_legend
+    choices: order_legend_opts()
+    selected: 
+    multiple: true
+    options:
+      plugins:
+      - - remove_button
+      - - drag_drop

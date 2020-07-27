@@ -1,0 +1,9 @@
+{
+    "path" : "~/Repos/apps/ds_apps/app-simple-static-charts/conf",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}

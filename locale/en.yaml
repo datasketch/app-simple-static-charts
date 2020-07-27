@@ -1,0 +1,86 @@
+sample: Data sample
+emissions: CO2 emissions
+population: Population
+leaders: Social leaders assassinated in colombia
+select_sample: Select a sample
+paste_pl: Select your data and paste it here
+paste: Copy & paste
+upload_doc: CSV/XLSX upload
+upload_lb: Click on UPLOAD and choose your file
+upload_bt_lb: Upload
+upload_pl: Open your data
+google: Import Google sheet
+google_sh_lb: Paste your public url
+google_sh_pl: https://docs.google.com/spreadsheets/...
+google_sh_pg_lb: Sheet to read
+upload_data: Data Upload
+view_data: Data Preview
+var_selector: Select variables to graph
+edit_viz: Visualization design
+view_viz: Visualization Preview
+viz_type: Visualization Type
+titles: Titles
+colors: Colors
+title: Title
+subtitle: Subtitle
+caption: Caption
+hor_title: X axis label
+ver_title: Y axis label
+theme: Theme
+background_color: Background color
+graph_style: Graph style
+palette_colors: Palette
+color_by: Color by
+datalabels: Datalabels
+dataLabels_show: Show data labels
+dataLabels_format_sample: Number format
+dataLabels_size: Font size
+dataLabels_text_outline: Outline
+summarize_num: Numeric process
+agg: Aggregation
+agg_info: You can choose the type of numeric variable processing. 
+sum: Sum
+mean: Mean
+median: Median
+percentage: Percentage
+sort: Sort
+noypunto: Without
+asc: Upward
+desc: Falling
+slice_n: Slice
+format_num_sample: Numeric format
+suffix: Suffix
+prefix: Prefix
+summarize_cat: Categorical process
+order: Category order
+format_cat_sample: Category format
+label_wrap: Label wrap
+chart: Chart
+tooltip: Tooltip
+orientation: Orientation
+graph_type: Graph type
+grouped: Grouped 
+stacked: Stacked
+spline: Spline
+highlight_value: Highlight value
+highlight_value_color: Highlight value color
+process_na: Process missing values (NA)
+drop_na: Drop NA
+na_label: Label NA
+legend: Legenda
+drop_na_legend: Drop NA in legend
+order_legend: Order categories
+label_wrap_legend: Label_wrap
+info_modal: Choose any format
+download: Download
+downloadImage: Download
+branding_include: Logo include
+legend_show: Show legend
+legend_y_position: Vertical position
+legend_layout: Layot
+legend_align: Align
+legend_verticalAlign: Vertilcal Align
+legend_reversed: Reversed
+legend_itemMarginTop: Item margin top
+legend_itemMarginBottom: Item margin bottom 
+download_plot: Downloads
