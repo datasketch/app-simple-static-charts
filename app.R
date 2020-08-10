@@ -404,7 +404,17 @@ server <- function(input, output, session) {
       info_org$name <- info_url$org }
   })
   
-  
+  info_user <- reactiveValues(id = "5efa17497caa2b00156a6468", name = "brandon")
+  observe({
+    info_url <- info_url$id
+    if (is.null(info_url)) return()
+    available_params <- names(info_url)
+    
+    if ("user_id" %in% available_params) {
+      info_user$id <- info_url$user_id} 
+    if ("user_name" %in% available_params) {
+      info_user$name <- info_url$user_name} 
+  })
   
   # Adicionar theme ---------------------------------------------------------
 
@@ -485,11 +495,11 @@ server <- function(input, output, session) {
   
   
   callModule(downloadImage, "download_plot", lib = "ggplot", 
-             graph = hgch_viz(),
+             graph = gg_viz(),
              formats =  c("svg","jpeg", "pdf", "png", "link"), name = "gg_image",
              modalFunction = pin_user_url,
              title = reactive(input$`download_plot-link-name`),
-             element = reactive(hgch_viz()), user_id = info_user$id, user_name = info_user$name)
+             element = reactive(gg_viz()), user_id = info_user$id, user_name = info_user$name)
   
 }
 
