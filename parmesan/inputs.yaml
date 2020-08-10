@@ -59,10 +59,12 @@ palette_colors:
     colors: agg_palette()
 dataLabels_show:
   show: true
-  input_type: checkboxInput
+  input_type: toggleSwitchInput
   input_params:
     label: dataLabels_show
     value: false
+    on_label: ''
+    off_label: ''
 dataLabels_format_sample:
   show: true
   show_if:
@@ -117,7 +119,7 @@ graph_type:
   show: true
   show_if_all:
     viz_select():
-      equals: bar
+       is_any_of: [bar, area]
     numberCats():
       equals: 2
   input_type: radioButtons
@@ -150,6 +152,17 @@ percentage:
   input_params:
     label: percentage
     value: false
+percentage_col:
+  show: true
+  show_if_all:
+    numberCats():
+      equals: 2
+    isTruePerc():
+      equals: true
+  input_type: selectizeInput
+  input_params:
+    label: percentage_col
+    choices: only_cat()
 sort:
   show: true
   input_type: selectizeInput
@@ -244,8 +257,8 @@ tooltip:
 orientation:
   show: true
   show_if_all:
-    viz_select():
-      equals: bar
+    only_bar():
+      equals: true
   input_type: selectizeInput
   input_params:
     label: Orientation

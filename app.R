@@ -8,6 +8,7 @@ library(hotr)
 library(dsthemer)
 library(knitr)
 library(shinycustomloader)
+library(dspins)
 
 styles <- "
 .shiny-output-error { 
@@ -247,6 +248,10 @@ server <- function(input, output, session) {
     tx
   })
   
+  only_bar <- reactive({
+    actual_but$active == "bar"
+  })
+  
   show_dataLabels_format <- reactive({
     input$dataLabels_show
   })
@@ -255,8 +260,19 @@ server <- function(input, output, session) {
     TRUE %in% grepl('Num', dic_draw()$hdType)
   })
   
+  only_cat <- reactive({
+    if (is.null(dic_draw())) return()
+    dic_draw()$label[!grepl("Num", dic_draw()$hdType)]
+  })
+  
   numberCats <- reactive({
+    print( length(grep('Cat|Yea', dic_draw()$hdType)))
     length(grep('Cat|Yea', dic_draw()$hdType))
+  })
+  
+  isTruePerc <- reactive({
+    if(is.null(input$percentage)) return()
+    input$percentage
   })
   
   highlightNull <- reactive({
@@ -423,6 +439,7 @@ server <- function(input, output, session) {
     opts_viz <- parmesan_input()
     if (is.null(opts_viz)) return()
     opts_viz <- opts_viz[setdiff(names(opts_viz), c('theme'))]
+    if (is.null(opts_viz$orientation)) opts_viz$orientation <- 'ver'
     opts_viz
   })
   
@@ -437,9 +454,11 @@ server <- function(input, output, session) {
   })
   
   gg_viz <- reactive({
-    print(opts_viz()[1:4])
     if (is.null(viz_name())) return()
-    viz <- do.call(viz_name(), c(list(data = data_draw(), opts_viz()[1:3], theme = theme_draw()
+    print(opts_viz())
+    viz <- do.call(viz_name(), c(list(data = data_draw(), 
+                                      opts = opts_viz(),
+                                      theme = theme_draw()
                                       )
                                  ))
     viz
@@ -455,13 +474,22 @@ server <- function(input, output, session) {
 
 # Descarga de grafico -----------------------------------------------------
 
+ 
   output$download <- renderUI({
     lb <- i_("download_plot", lang())
-    downloadImageUI("download_plot", dropdownLabel = lb, formats = c("svg","jpeg", "pdf", "png", "link"), display = "dropdown")
+    downloadImageUI("download_plot", 
+                    dropdownLabel = lb, 
+                    formats = c("svg","jpeg", "pdf", "png", "link"),
+                    display = "dropdown")
   })
   
   
-  callModule(downloadImage, "download_plot", graph = gg_viz(), lib = "ggplot", formats = c("svg","jpeg", "pdf", "png", "link"))
+  callModule(downloadImage, "download_plot", lib = "ggplot", 
+             graph = hgch_viz(),
+             formats =  c("svg","jpeg", "pdf", "png", "link"), name = "gg_image",
+             modalFunction = pin_user_url,
+             title = reactive(input$`download_plot-link-name`),
+             element = reactive(hgch_viz()), user_id = info_user$id, user_name = info_user$name)
   
 }
 
