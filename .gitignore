@@ -5,7 +5,9 @@
 .env
 .Rbuildignore
 
-rsconnect/*
+
+# Deployment files
+rsconnect/
 
 # History files
 .Rhistory
@@ -28,6 +30,4 @@ vignettes/*.pdf
 #*.Rproj
 .Rproj.user
 
-.env
-tmp/*
-.DS_Store
+
