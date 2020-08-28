@@ -53,16 +53,10 @@ legend:
   label: legend
   inputs: 
     - legend_show
+    - legend_position
     - drop_na_legend
     - order_legend
     - label_wrap_legend
-    - legend_y_position
-    - legend_layout
-    - legend_align
-    - legend_verticalAlign
-    - legend_reversed
-    - legend_itemMarginTop
-    - legend_itemMarginBottom 
 logo:
   label: logo
   inputs:

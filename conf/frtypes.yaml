@@ -3,13 +3,13 @@ Cat:
 - bar
 - pie
 - donut
-- bubbles
+#- bubbles
 - treemap
 Cat-Num:
 - bar
 - pie
 - donut
-- bubbles
+#- bubbles
 - treemap
 Dat:
 - line
@@ -26,7 +26,7 @@ Yea-Num:
 Cat-Cat:
 - bar
 - treemap
-- bubbles
+#- bubbles
 Cat-Cat-Num:
 - bar
 - treemap
@@ -42,9 +42,9 @@ Cat-Yea:
 - line
 - area
 - treemap
-- bubbles
+#- bubbles
 Cat-Yea-Num:
-#- bar
+- bar
 - line
 - area
 #- treemap
@@ -54,7 +54,7 @@ Yea-Cat-Num:
 - line
 - area
 - treemap
-- bubbles
+#- bubbles
 Num-Num:
 - scatter
 Cat-Num-Num:

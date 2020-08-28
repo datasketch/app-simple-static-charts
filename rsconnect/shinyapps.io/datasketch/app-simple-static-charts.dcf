@@ -5,8 +5,8 @@ account: datasketch
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2627427
-bundleId: 3497311
+bundleId: 3557189
 url: https://datasketch.shinyapps.io/app-simple-static-charts/
-when: 1597067768.87285
+when: 1598387832.9628
 asMultiple: FALSE
 asStatic: FALSE

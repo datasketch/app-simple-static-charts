@@ -119,7 +119,7 @@ graph_type:
   show: true
   show_if_all:
     viz_select():
-       is_any_of: [bar, area]
+      is_any_of: [bar, area]
     numberCats():
       equals: 2
   input_type: radioButtons
@@ -308,22 +308,8 @@ legend_show:
   input_type: checkboxInput
   input_params:
     label: legend_show
-    value: true    
-legend_y_position:
-  show_if:
-   conditional_legend_show():
-     equals: true
-   input_legend_show():
-     equals: true
-  show: true
-  input_type: sliderInput
-  input_params:
-    label: legend_y_position
-    min: -500
-    max: 100
-    step: 5
-    value: -30
-legend_layout:
+    value: true
+legend_position:
   show: true
   show_if:
    conditional_legend_show():
@@ -332,69 +318,8 @@ legend_layout:
      equals: true
   input_type: selectizeInput
   input_params:
-    label: legend_layout
-    choices: legend_layout_opts()
-legend_align:
-  show: true
-  show_if:
-   conditional_legend_show():
-     equals: true
-   input_legend_show():
-     equals: true
-  input_type: selectizeInput
-  input_params:
-    label: legend_layout
-    choices: legend_align_opts()
-legend_verticalAlign: 
-  show: true
-  show_if:
-   conditional_legend_show():
-     equals: true
-   input_legend_show():
-     equals: true
-  input_type: selectizeInput
-  input_params:
-    label: legend_layout
-    choices: legend_verticalAlign_opts()
-legend_reversed: 
-  show: true
-  show_if:
-   conditional_legend_show():
-     equals: true
-   input_legend_show():
-     equals: true
-  input_type: checkboxInput
-  input_params:
-    label: legend_reversed
-    value: false
-legend_itemMarginTop:
-  show: true
-  show_if:
-   conditional_legend_show():
-     equals: true
-   input_legend_show():
-     equals: true
-  input_type: sliderInput
-  input_params:
-    label: legend_itemMarginTop
-    min: -30
-    max: 30
-    step: 1
-    value: 0
-legend_itemMarginBottom:
-  show: true
-  show_if:
-   conditional_legend_show():
-     equals: true
-   input_legend_show():
-     equals: true
-  input_type: sliderInput
-  input_params:
-    label: legend_itemMarginBottom
-    min: -30
-    max: 30
-    step: 1
-    value: 0
+    label: legend_position
+    choices: legend_position_opts()
 label_wrap_legend:
   show: true
   show_if:
@@ -441,3 +366,4 @@ order_legend:
       plugins:
       - - remove_button
       - - drag_drop
+    

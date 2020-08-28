@@ -76,11 +76,16 @@ download: Descarga
 downloadImage: Descarga
 branding_include: Incluir logo
 legend_show: Mostrar leyenda
-legend_y_position: Posición vertical
-legend_layout: Layot
-legend_align: Alineación
-legend_verticalAlign: Alineación vertical
-legend_reversed: Reversar items
-legend_itemMarginTop: Margen superior de items
-legend_itemMarginBottom: Margen inferior de items
 download_plot: Descargas
+error_down: ¡Oh, algo a sucedido!, por favor intenta más tarde.
+download_viz: Descarga
+get_link: Obtener enlace
+gl_name: Nombre
+gl_slug: Slug
+gl_description: Descripción
+gl_license: Licencia
+gl_tags: Etiquetas
+gl_category: Categorías
+gl_save: Guardar en dslibrary
+gl_url: URL
+gl_iframe: Copiar para embeber

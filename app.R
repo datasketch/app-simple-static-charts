@@ -10,24 +10,13 @@ library(knitr)
 library(shinycustomloader)
 library(dspins)
 
-styles <- "
-.shiny-output-error { 
-visibility: hidden !important; }
-.shiny-output-error:before { 
-visibility: hidden !important; }
-.title-data-select {
- color: #B70F7F;
- font-weight: 700;
- text-transform: uppercase;
-}
-"
 
 frtypes_doc <- suppressWarnings(yaml::read_yaml("conf/frtypes.yaml"))
 
 ui <- panelsPage(
+  showDebug(),
   useShi18ny(),
   langSelectorInput("lang", position = "fixed"),
-  styles = styles,
   panel(title = ui_("upload_data"),
         collapse = TRUE,
         width = 300,
@@ -75,6 +64,7 @@ server <- function(input, output, session) {
     choices <- c("sampleData", "pasted", "fileUpload", "googleSheets")
     names(choices) <- i_(c("sample", "paste", "upload_doc", "google"), lang = lang())
     tableInputUI("initial_data",
+                 i_("table_label", lang()),
                  choices = choices,
                  selected =  "sampleData")
   })
@@ -109,9 +99,7 @@ server <- function(input, output, session) {
   })
   
   inputData <- eventReactive(labels(), {
-    do.call(callModule, c(tableInput,
-                          "initial_data",
-                          labels()))
+    do.call(tableInputServer, c("initial_data", labels()))
   })
   
   output$debug <- renderPrint({
@@ -121,7 +109,6 @@ server <- function(input, output, session) {
   # Vista de datos ----------------------------------------------------------
   
   output$dataset <- renderUI({
-    if(is.null(inputData()))return()
     suppressWarnings(
       hotr("data_input", data = inputData(), options = list(height = 530))
     )
@@ -132,10 +119,12 @@ server <- function(input, output, session) {
   })
   
   data_load <- reactive({
+    req(data_fringe())
     data_fringe()$data
   })
   
   dic_load <- reactive({
+    req(data_fringe())
     data_fringe()$dic
   })
   
@@ -171,6 +160,7 @@ server <- function(input, output, session) {
   # Preparación data para graficar ------------------------------------------
   
   data_draw <- reactive({
+  
     var_select <- input$var_order
     if (is.null(var_select)) return()
     d <- data_load()[var_select] 
@@ -179,6 +169,7 @@ server <- function(input, output, session) {
   })
   
   dic_draw <- reactive({
+   
     var_select <- input$var_order
     if (is.null(var_select)) return()
     dic_load() %>% filter(id %in% var_select)
@@ -188,17 +179,17 @@ server <- function(input, output, session) {
     dic_draw()
   })
   ftype_draw <- reactive({
-    if (is.null(dic_draw())) return()
+    req(dic_draw())
     paste0(dic_draw()$hdType, collapse = "-")
   })
   
   possible_viz <- reactive({
-    if (is.null(ftype_draw())) return()
+    req(ftype_draw())
     frtypes_doc[[ftype_draw()]]
   })
   
   
-  actual_but <- reactiveValues(active = 'line')
+  actual_but <- reactiveValues(active = 'bar')
   
   observe({
     viz_rec <- possible_viz()
@@ -346,29 +337,24 @@ server <- function(input, output, session) {
     input$legend_show
   })
   
+  legend_position_opts <- reactive({
+    choices <- c("bottom", "top", "left", "right")
+    choices
+  })
+  
   sort_opts <- reactive({
     choices <- c("noypunto", "asc", "desc")
     names(choices) <- i_(c("noypunto", "asc", "desc"), lang = lang())
     choices
   })
   
-  legend_layout_opts <- reactive({
-    choices <- c("horizontal", "vertical", "proximate")
-    #names(choices) <- i_(c("horizontal", "vertical", "proximate"), lang = lang())
-    choices
-  })
+
   
-  legend_align_opts <- reactive({
-    choices <- c("center", "left", "right")
-    #names(choices) <- i_(c("left", "center", "right"), lang = lang())
-    choices
-  })
-  
-  legend_verticalAlign_opts <- reactive({ 
-    choices <- c("bottom", "top", "middle")
-    #names(choices) <- i_(c("bottom", "top", "middle"), lang = lang())
-    choices
-  })
+  # legend_verticalAlign_opts <- reactive({ 
+  #   choices <- c("bottom", "top", "middle")
+  #   #names(choices) <- i_(c("bottom", "top", "middle"), lang = lang())
+  #   choices
+  # })
   
   
   # Renderizar inputs con parmesan ------------------------------------------
@@ -392,29 +378,28 @@ server <- function(input, output, session) {
     query <- parseQueryString(session$clientData$url_search)
     if (identical(query, list())) return()
     info_url$id <- query
-  })
-  
-  info_org <- reactiveValues(name = "public")
-  observe({
+  }) 
+  info_org <- reactiveValues(name = "public", id = NULL)
+
+    observe({
     info_url <- info_url$id
-    if (is.null(info_url)) return()
+    #if (is.null(info_url)) return()
     available_params <- names(info_url)
     
-    if ("org" %in% available_params) {
-      info_org$name <- info_url$org }
-  })
-  
-  info_user <- reactiveValues(id = "5efa17497caa2b00156a6468", name = "brandon")
-  observe({
-    info_url <- info_url$id
-    if (is.null(info_url)) return()
-    available_params <- names(info_url)
+    if ("org_name" %in% available_params) {
+      info_org$name <- info_url$org_name }
+    
+    if ("org_id" %in% available_params) {
+      info_org$id <- info_url$org_id }
     
     if ("user_id" %in% available_params) {
-      info_user$id <- info_url$user_id} 
-    if ("user_name" %in% available_params) {
-      info_user$name <- info_url$user_name} 
-  })
+      if ("org_id" %in% available_params) {
+        info_user$id <- info_org$id 
+      } else {
+        info_user$id <- info_url$user_id}
+    } 
+    
+})
   
   # Adicionar theme ---------------------------------------------------------
 
@@ -426,7 +411,7 @@ server <- function(input, output, session) {
   
   theme_draw <- reactive({
     l <- theme_load()
-    l <- l[setdiff(names(l), c('background_color', 'palette_colors', 'branding_include'))]
+    l <- l[setdiff(names(l), c('background_color', 'palette_colors', 'branding_include', 'logo'))]
     l
   })
   
@@ -450,6 +435,10 @@ server <- function(input, output, session) {
     if (is.null(opts_viz)) return()
     opts_viz <- opts_viz[setdiff(names(opts_viz), c('theme'))]
     if (is.null(opts_viz$orientation)) opts_viz$orientation <- 'ver'
+    if (is.null(opts_viz$graph_type)) opts_viz$graph_type <- 'grouped'
+    if (is.null(opts_viz$drop_na)) opts_viz$drop_na <- TRUE
+    if (is.null(opts_viz$agg)) opts_viz$agg <- "sum"
+    opts_viz$logo <- info_org$org
     opts_viz
   })
   
@@ -465,15 +454,16 @@ server <- function(input, output, session) {
   
   gg_viz <- reactive({
     if (is.null(viz_name())) return()
-    print(opts_viz())
-    viz <- do.call(viz_name(), c(list(data = data_draw(), 
-                                      opts = opts_viz(),
+    req(data_draw())
+    req(opts_viz())
+    
+    viz <- do.call(viz_name(), c(list(data = data_draw(),
+                                      opts_viz(),
                                       theme = theme_draw()
-                                      )
-                                 ))
+    )))
     viz
   })
-  
+
   output$view_gg <- renderPlot({
     viz <- gg_viz()
     if (is.null(viz)) return()
@@ -484,23 +474,57 @@ server <- function(input, output, session) {
 
 # Descarga de grafico -----------------------------------------------------
 
- 
   output$download <- renderUI({
-    lb <- i_("download_plot", lang())
-    downloadImageUI("download_plot", 
-                    dropdownLabel = lb, 
-                    formats = c("svg","jpeg", "pdf", "png", "link"),
-                    display = "dropdown")
+    lb <- i_("download_viz", lang())
+    dw <- i_("download", lang())
+    gl <- i_("get_link", lang())
+    mb <- list(textInput("name", i_("gl_name", lang())),
+               textInput("description", i_("gl_description", lang())),
+               selectInput("license", i_("gl_license", lang()), choices = c("CC0", "CC-BY")),
+               selectizeInput("tags", i_("gl_tags", lang()), choices = list("No tag" = "no-tag"), multiple = TRUE, options = list(plugins= list('remove_button', 'drag_drop'))),
+               selectizeInput("category", i_("gl_category", lang()), choices = list("No category" = "no-category")))
+    downloadDsUI("download_data_button", dropdownLabel = lb, text = dw, formats = c("svg","jpeg", "pdf", "png"),
+                 display = "dropdown", dropdownWidth = 170, getLinkLabel = gl, modalTitle = gl, modalBody = mb,
+                 modalButtonLabel = i_("gl_save", lang()), modalLinkLabel = i_("gl_url", lang()), modalIframeLabel = i_("gl_iframe", lang()),
+                 modalFormatChoices = c("PNG" = "png", "SVG" = "svg"))
   })
   
   
-  callModule(downloadImage, "download_plot", lib = "ggplot", 
-             graph = gg_viz(),
-             formats =  c("svg","jpeg", "pdf", "png", "link"), name = "gg_image",
-             modalFunction = pin_user_url,
-             title = reactive(input$`download_plot-link-name`),
-             element = reactive(gg_viz()), user_id = info_user$id, user_name = info_user$name)
+  par <- list(user_name = "brandon")
+  url_par <- reactive({
+    url_params(par, session)
+  })
   
+  pin_ <- function(x, bkt, ...) {
+    x <- dsmodules:::eval_reactives(x)
+    bkt <- dsmodules:::eval_reactives(bkt)
+    nm <- input$`download_data_button-modal_form-name`
+    if (!nzchar(input$`download_data_button-modal_form-name`)) {
+      nm <- paste0("saved", "_", gsub("[ _:]", "-", substr(as.POSIXct(Sys.time()), 1, 19)))
+      updateTextInput(session, "download_data_button-modal_form-name", value = nm)
+    }
+    dv <- dsviz(x,
+                name = nm,
+                description = input$`download_data_button-modal_form-description`,
+                license = input$`download_data_button-modal_form-license`,
+                tags = input$`download_data_button-modal_form-tags`,
+                category = input$`download_data_button-modal_form-category`)
+    dspins_user_board_connect(bkt)
+    Sys.setlocale(locale = "en_US.UTF-8")
+    pin(dv, bucket_id = bkt)
+  }
+  
+  
+  observe({
+    req(gg_viz())
+    if (is.null(url_par()$inputs$user_name)) return()
+    
+    downloadDsServer("download_data_button", element = reactive(gg_viz()),
+                     formats = c("svg", "jpeg", "pdf", "png"),
+                     errorMessage = NULL,#i_("error_down", lang()),
+                     modalFunction = pin_, reactive(gg_viz()),
+                     bkt = url_par()$inputs$user_name)
+  })
 }
 
 shinyApp(ui, server)

@@ -76,11 +76,15 @@ download: Download
 downloadImage: Download
 branding_include: Logo include
 legend_show: Show legend
-legend_y_position: Vertical position
-legend_layout: Layot
-legend_align: Align
-legend_verticalAlign: Vertilcal Align
-legend_reversed: Reversed
-legend_itemMarginTop: Item margin top
-legend_itemMarginBottom: Item margin bottom 
-download_plot: Downloads
+error_down: There has been a problem; try again later.
+download_viz: Download
+get_link: Get link
+gl_name: Name
+gl_slug: Slug
+gl_description: Description
+gl_license: License
+gl_tags: Tags
+gl_category: Category
+gl_save: Save in dslibrary
+gl_url: URL
+gl_iframe: Copy to embed
