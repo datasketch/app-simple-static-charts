@@ -48,7 +48,7 @@ server <- function(input, output, session) {
 # Idiomas -----------------------------------------------------------------
 
   i18n <- list(
-    defaultLang = "es",
+    defaultLang = "en",
     availableLangs = c("es","en")
   )
   lang <- callModule(langSelector,"lang", i18n = i18n, showSelector=FALSE)
@@ -456,12 +456,15 @@ server <- function(input, output, session) {
     if (is.null(viz_name())) return()
     req(data_draw())
     req(opts_viz())
-    
+
     viz <- do.call(viz_name(), c(list(data = data_draw(),
                                       opts_viz(),
                                       theme = theme_draw()
     )))
+    #viz <- do.call('gg_area_Yea', c(list(data = (sample_data("Yea")))))
+    print(class(viz))
     viz
+   
   })
 
   output$view_gg <- renderPlot({
@@ -483,8 +486,8 @@ server <- function(input, output, session) {
                selectInput("license", i_("gl_license", lang()), choices = c("CC0", "CC-BY")),
                selectizeInput("tags", i_("gl_tags", lang()), choices = list("No tag" = "no-tag"), multiple = TRUE, options = list(plugins= list('remove_button', 'drag_drop'))),
                selectizeInput("category", i_("gl_category", lang()), choices = list("No category" = "no-category")))
-    downloadDsUI("download_data_button", dropdownLabel = lb, text = dw, formats = c("svg","jpeg", "pdf", "png"),
-                 display = "dropdown", dropdownWidth = 170, getLinkLabel = gl, modalTitle = gl, modalBody = mb,
+    downloadDsUI("download_data_button", dropdownLabel = lb, text = dw, formats = c("jpeg", "png", "svg", "pdf"), 
+                 display = "dropdown", dropdownWidth = 180, getLinkLabel = gl, modalTitle = gl, modalBody = mb,
                  modalButtonLabel = i_("gl_save", lang()), modalLinkLabel = i_("gl_url", lang()), modalIframeLabel = i_("gl_iframe", lang()),
                  modalFormatChoices = c("PNG" = "png", "SVG" = "svg"))
   })
