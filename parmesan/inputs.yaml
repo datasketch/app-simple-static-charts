@@ -4,13 +4,13 @@ title:
   input_type: textInput
   input_params:
     label: title
-    value:
+    value: 
 subtitle:
   show: true
   input_type: textInput
   input_params:
     label: subtitle
-    value:
+    value: 
 caption:
   show: true
   input_type: textInput
@@ -94,15 +94,6 @@ dataLabels_color:
   input_params:
     label: dataLabels_color
     colors: "#2e3b42"
-dataLabels_text_outline:
-  show: true
-  show_if:
-    show_dataLabels_format():
-      equals: true
-  input_type: checkboxInput
-  input_params:
-    label: dataLabels_text_outline
-    value: true
 agg:
   show: true
   show_if:
@@ -119,13 +110,26 @@ graph_type:
   show: true
   show_if_all:
     viz_select():
-      is_any_of: [bar, area]
+      equals: bar
     numberCats():
       equals: 2
   input_type: radioButtons
   input_params:
     label: graph_type
     choices: bar_type_opts()
+percentage_col:
+  show: true
+  show_if_all:
+    viz_select():
+      equals: bar
+    numberCats():
+      equals: 2
+    isTruePerc():
+      equals: true
+  input_type: selectizeInput
+  input_params:
+    label: percentage_col
+    choices: only_cat()
 drop_na:
   show: true
   show_if:
@@ -152,17 +156,6 @@ percentage:
   input_params:
     label: percentage
     value: false
-percentage_col:
-  show: true
-  show_if_all:
-    numberCats():
-      equals: 2
-    isTruePerc():
-      equals: true
-  input_type: selectizeInput
-  input_params:
-    label: percentage_col
-    choices: only_cat()
 sort:
   show: true
   input_type: selectizeInput
@@ -207,11 +200,11 @@ color_by:
     options: 
         maxItems:
         - 1
-format_num_sample:
+format_sample_num:
   show: true
   input_type: textInput
   input_params:
-    label: format_num_sample
+    label: format_sample_num
     value: "1,234.5"
 format_cat_sample:
   show: true
@@ -245,20 +238,11 @@ prefix:
   input_params:
     label: prefix
     value:
-tooltip:
-  show: true
-  input_type: textInput
-  input_params:
-    label: tooltip
-    value:
-  input_info:
-    icon: info-circle
-    text: tooltip_info
 orientation:
   show: true
   show_if_all:
-    only_bar():
-      equals: true
+    viz_select():
+      equals: bar
   input_type: selectizeInput
   input_params:
     label: Orientation
@@ -300,6 +284,15 @@ branding_include:
   input_params:
     label: branding_include
     value: true
+logo_x_position:
+  show: true
+  input_type: sliderInput
+  input_params:
+    label: logo_x_position
+    min: -1000
+    max: 1000
+    step: 10
+    value: 350
 legend_show:
   show: true
   show_if:
@@ -308,7 +301,7 @@ legend_show:
   input_type: checkboxInput
   input_params:
     label: legend_show
-    value: true
+    value: true 
 legend_position:
   show: true
   show_if:

@@ -1,3 +1,4 @@
+table_label: LOAD OPTIONS
 sample: Data sample
 emissions: CO2 emissions
 population: Population
@@ -35,7 +36,7 @@ datalabels: Datalabels
 dataLabels_show: Show data labels
 dataLabels_format_sample: Number format
 dataLabels_size: Font size
-dataLabels_text_outline: Outline
+dataLabels_color: Font color
 summarize_num: Numeric process
 agg: Aggregation
 agg_info: You can choose the type of numeric variable processing. 
@@ -48,7 +49,7 @@ noypunto: Without
 asc: Upward
 desc: Falling
 slice_n: Slice
-format_num_sample: Numeric format
+format_sample_num: Numeric format
 suffix: Suffix
 prefix: Prefix
 summarize_cat: Categorical process

@@ -20,28 +20,28 @@ datalabels:
     - dataLabels_format_sample
     - dataLabels_size
     - dataLabels_color
-    - dataLabels_text_outline
 chart:
   label: chart
   inputs:
     - sort
     - orientation
     - graph_type
+    - percentage
+    - percentage_col
     - highlight_value
     - highlight_value_color
 summarize_num:
   label: summarize_num
   inputs:
     - agg
-    - percentage
-    - percentage_col
-    - format_num_sample
+    - format_sample_num
     - prefix
     - suffix
 summarize_cat:
   label: summarize_cat
   inputs:
     - format_cat_sample
+    - slice_n
     - order
     - label_wrap
 process_na:
@@ -61,3 +61,4 @@ logo:
   label: logo
   inputs:
     - branding_include
+    

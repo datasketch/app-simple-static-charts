@@ -1,3 +1,4 @@
+table_label: OPCIONES DE CARGA
 sample: Datos de muestra
 emissions: Emisiones CO2
 population: Población
@@ -35,7 +36,7 @@ datalabels: Etiquetas de datos
 dataLabels_show: Mostrar etiqueta
 dataLabels_format_sample: Formato numérico
 dataLabels_size: Tamaño fuente
-dataLabels_text_outline: Contorno
+dataLabels_color: Color
 summarize_num: Procesamiento números
 agg: Agregación
 agg_info: Puedes escoger el tipo de procesamiento de tu variable númerica.
@@ -48,7 +49,7 @@ noypunto: Sin orden
 asc: Ascendente
 desc: Descendente
 slice_n: Ranking
-format_num_sample: Formato Numérico
+format_sample_num: Formato Numérico
 suffix: Sufijo
 prefix: Prefijo
 summarize_cat: Procesamiento categorías
