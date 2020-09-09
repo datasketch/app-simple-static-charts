@@ -89,3 +89,5 @@ gl_category: Category
 gl_save: Save in dslibrary
 gl_url: URL
 gl_iframe: Copy to embed
+ftypes_warning: Oh no, verify that the selected variables are categorical and numeric or contact support to report the problem.
+

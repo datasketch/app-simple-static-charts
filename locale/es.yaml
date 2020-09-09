@@ -90,3 +90,4 @@ gl_category: Categorías
 gl_save: Guardar en dslibrary
 gl_url: URL
 gl_iframe: Copiar para embeber
+ftypes_warning: ¡Oh no!, verifica que las variables seleccionadas sean categoricas y númericas o contacta a soporte para reportar el problema. 

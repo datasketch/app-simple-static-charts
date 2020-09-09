@@ -18,7 +18,7 @@ available_ftypes <- names(frtypes_doc)
 
 ui <- panelsPage(
   showDebug(),
-  useShi18ny(),
+  #useShi18ny(),
   disconnectMessage(
     text = "Oh no!, la sesión a finalizado, si estabas trabajando en la app, por favor contacta a soporte y cuentanos que ha sucedido//Oh no, the session has ended, if you were working on the app, please contact support and tell us what has happened",
     refresh = "O, intenta de nuevo//Or try again",
@@ -156,13 +156,16 @@ server <- function(input, output, session) {
     if (data_ftype %in% available_ftypes) {
       sample_end <- dic_load$id
     } else {
+      sample_cats <- NULL
       if (sum(c("Cat", "Dat", "Yea") %in% dic_load$hdType) > 0) {
+        if(sum(grepl("Cat|Dat|Yea", dic_load$hdType)) == 0) sample_cats <- NULL
         sample_cats <- sample(dic_load$id[grepl("Cat|Dat|Yea", dic_load$hdType)], 1)}
+      sample_nums <- NULL
       if (sum(c("Num") %in% dic_load$hdType) > 0) {
+        if(sum(grepl("Num", dic_load$hdType)) == 0) sample_nums <- NULL
         sample_nums <-  sample(dic_load$id[grepl("Num", dic_load$hdType)], 1)}
       sample_end <- c(sample_cats, sample_nums)
     }
-    
     
     if(is.null(sample_end)) return()
     
