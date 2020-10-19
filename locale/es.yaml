@@ -27,6 +27,7 @@ subtitle: Subtítulo
 caption: Créditos
 hor_title: Título eje horizontal
 ver_title: Título eje vertical
+grouping: Agrupación
 theme: Tema
 background_color: Color de fondo
 graph_style: Estilo gráfico
@@ -90,4 +91,7 @@ gl_category: Categorías
 gl_save: Guardar en dslibrary
 gl_url: URL
 gl_iframe: Copiar para embeber
-ftypes_warning: ¡Oh no!, verifica que las variables seleccionadas sean categoricas y númericas o contacta a soporte para reportar el problema. 
+data_wait: Esperamos tu data para empezar a gráficar, si estas explorando recuerda que puedes jugar con los ejemplos de prueba para que aprendas más sobre el uso de la herramienta.
+data_error: Se ha producido un error al cargar tu base de datos, puedes verificar que&#58; <br/> <ul> <li>La extensión del archivo sea XLS/XLSX ó CSV</li><li>El archivo no tenga codigos extraños, esto puede pasar cuando la codificación es distinta a UTF8</li></ul> 
+ftype_ms: Por ahora no tenemos un gráfico para esa combinación de variables elegida..
+ftype_null: Selecciona las variables que quieres graficar

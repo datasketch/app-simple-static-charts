@@ -35,6 +35,15 @@ ver_title:
   input_params:
     label: ver_title
     value: ver_title()
+grouping:
+  show: true
+  show_if:
+    hasdataCat():
+      equals: true
+  input_type: selectizeInput
+  input_params:
+    label: grouping
+    choices: data_cat()
 theme:
   show: true
   input_type: selectizeInput

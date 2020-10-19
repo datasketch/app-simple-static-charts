@@ -27,6 +27,7 @@ subtitle: Subtitle
 caption: Caption
 hor_title: X axis label
 ver_title: Y axis label
+grouping: Grouping
 theme: Theme
 background_color: Background color
 graph_style: Graph style
@@ -89,5 +90,8 @@ gl_category: Category
 gl_save: Save in dslibrary
 gl_url: URL
 gl_iframe: Copy to embed
-ftypes_warning: Oh no, verify that the selected variables are categorical and numeric or contact support to report the problem.
+data_wait: We wait for your data to start graphing, if you are exploring remember that you can play with the test examples to learn more about the use of the tool.
+data_error: There was an error loading your database, you can verify that &#58; <br/> <ul> <li> The file extension is XLS / XLSX or CSV </li> <li> The file does not have strange codes, this can happen when the encoding is different from UTF8 </li> </ul>
+ftype_ms: For now we don't have a graph for that chosen combination of variables.
+ftype_null: Select the variables you want to graph
 

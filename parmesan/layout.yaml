@@ -6,6 +6,7 @@ titles:
     - caption
     - hor_title
     - ver_title
+    - grouping
 graph_style:
   label: graph_style
   inputs:
