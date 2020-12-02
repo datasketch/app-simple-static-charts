@@ -11,6 +11,7 @@ library(knitr)
 library(dspins)
 library(shinycustomloader)
 library(shinydisconnect)
+library(shinybusy)
 
 
 frtypes_doc <- suppressWarnings(yaml::read_yaml("conf/frtypes.yaml"))
@@ -20,14 +21,21 @@ ui <- panelsPage(
   showDebug(),
   useShi18ny(),
   disconnectMessage(
-    text = "Oh no!, la sesión a finalizado, si estabas trabajando en la app, por favor contacta a soporte y cuentanos que ha sucedido//Oh no, the session has ended, if you were working on the app, please contact support and tell us what has happened",
-    refresh = "O, intenta de nuevo//Or try again",
-    background = "#385573",
-    colour = "white",
-    overlayColour = "grey",
-    overlayOpacity = 0.3,
-    refreshColour = "#FBC140"
+    text = "Tu sesión ha finalizado, si tienes algún problema trabajando con la app por favor contáctanos y cuéntanos qué ha sucedido // Your session has ended, if you have any problem working with the app please contact us and tell us what happened.",
+    refresh = "REFRESH",
+    background = "#ffffff",
+    colour = "#435b69",
+    size = 14,
+    overlayColour = "#2a2e30",
+    overlayOpacity = 0.85,
+    refreshColour = "#ffffff",
+    css = "padding: 4.8em 3.5em !important; box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1) !important;"
   ),
+  busy_start_up(
+    loader = tags$img(
+      src = "img/loading_gris.gif",
+      width = 100
+    )),
   langSelectorInput("lang", position = "fixed"),
   panel(title = ui_("upload_data"),
         collapse = TRUE,
@@ -146,6 +154,11 @@ server <- function(input, output, session) {
   })
   
   
+  indicator <- reactive({
+    if (is.null(inputData()())) return()
+    if (is.null(input$data_input$dic)) return()
+    all(names(inputData()()) %in% input$data_input$dic$label)
+  })
   
   var_select <- reactiveValues(id_default = NULL, all_vars_data = NULL)
   
@@ -244,15 +257,16 @@ server <- function(input, output, session) {
   
   data_draw <- reactive({
     
-    if (is.null(inputData()())) return()
+    if(is.null(indicator())) return()
+    if(!indicator()) return()
     req(data_load())
     if (is.null(var_plot())) return()
     req(dic_draw())
     d <- data_load()[dic_draw()[["id"]]]
+    
     names(d) <- dic_draw()[["label"]][match(dic_draw()[["id"]], names(d))]
     
-    
-    if (is.null(input$grouping) | identical(input$grouping, input$grouping)) {
+    if (is.null(input$grouping) | isFALSE(input$grouping %in% names(d))) {
       d <- d
     } else {
       d <- d[c(input$grouping, setdiff(names(d), input$grouping))]
@@ -260,7 +274,6 @@ server <- function(input, output, session) {
     
     d
   })
-  
   
   
   
