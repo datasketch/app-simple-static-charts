@@ -1,33 +1,17 @@
-.Rproj.user
-.Rhistory
-.RData
-.Ruserdata
-.env
-.Rbuildignore
-
-
-# Deployment files
-rsconnect/
 
 # History files
 .Rhistory
 .Rapp.history
 
-# Example code in package build process
-*-Ex.R
-
-# RStudio files
+# RStudio project files
 .Rproj.user/
 .Rproj.user/*
 
 # RData
 .RData
 
-# produced vignettes
-vignettes/*.html
-vignettes/*.pdf
+# Deployment files
+rsconnect/
 
-#*.Rproj
-.Rproj.user
-
-
+# Env file
+.env

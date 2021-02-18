@@ -36,13 +36,7 @@ ui <- panelsPage(
     loader = tags$img(
       src = "img/loading_gris.gif",
       width = 100
-    ),
-    #text = "Loading...",
-    mode = "auto",
-    #timeout = 3500,
-    color = "#435b69",
-    background = "#FFF"
-  ),
+    )),
   langSelectorInput("lang", position = "fixed"),
   langSelectorInput("lang", position = "fixed"),
   panel(title = ui_("upload_data"),
@@ -163,6 +157,11 @@ server <- function(input, output, session) {
   })
   
   
+  indicator <- reactive({
+    if (is.null(inputData()())) return()
+    if (is.null(input$data_input$dic)) return()
+    all(names(inputData()()) %in% input$data_input$dic$label)
+  })
   
   var_select <- reactiveValues(id_default = NULL, all_vars_data = NULL)
   
@@ -261,15 +260,16 @@ server <- function(input, output, session) {
   
   data_draw <- reactive({
     
-    if (is.null(inputData()())) return()
+    if(is.null(indicator())) return()
+    if(!indicator()) return()
     req(data_load())
     if (is.null(var_plot())) return()
     req(dic_draw())
     d <- data_load()[dic_draw()[["id"]]]
+    
     names(d) <- dic_draw()[["label"]][match(dic_draw()[["id"]], names(d))]
     
-    
-    if (is.null(input$grouping) | identical(input$grouping, input$grouping)) {
+    if (is.null(input$grouping) | isFALSE(input$grouping %in% names(d))) {
       d <- d
     } else {
       d <- d[c(input$grouping, setdiff(names(d), input$grouping))]
@@ -279,7 +279,6 @@ server <- function(input, output, session) {
   })
   
   
-
   ###########################
   
   ftype_draw <- reactive({
