@@ -44,6 +44,12 @@ grouping:
   input_params:
     label: grouping
     choices: data_cat()
+text_family:
+  show: true
+  input_type: selectizeInput
+  input_params:
+    label: text_family
+    choices: fontFamily_opts()
 theme:
   show: true
   input_type: selectizeInput

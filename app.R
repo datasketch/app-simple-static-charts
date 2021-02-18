@@ -9,8 +9,10 @@ library(hotr)
 library(dsthemer)
 library(knitr)
 library(dspins)
+library(dspins)
 library(shinycustomloader)
 library(shinydisconnect)
+library(shinybusy)
 
 
 frtypes_doc <- suppressWarnings(yaml::read_yaml("conf/frtypes.yaml"))
@@ -20,14 +22,28 @@ ui <- panelsPage(
   showDebug(),
   useShi18ny(),
   disconnectMessage(
-    text = "Oh no!, la sesión a finalizado, si estabas trabajando en la app, por favor contacta a soporte y cuentanos que ha sucedido//Oh no, the session has ended, if you were working on the app, please contact support and tell us what has happened",
-    refresh = "O, intenta de nuevo//Or try again",
-    background = "#385573",
-    colour = "white",
-    overlayColour = "grey",
-    overlayOpacity = 0.3,
-    refreshColour = "#FBC140"
+    text = "Tu sesión ha finalizado, si tienes algún problema trabajando con la app por favor contáctanos y cuéntanos qué ha sucedido // Your session has ended, if you have any problem working with the app please contact us and tell us what happened.",
+    refresh = "REFRESH",
+    background = "#ffffff",
+    colour = "#435b69",
+    size = 14,
+    overlayColour = "#2a2e30",
+    overlayOpacity = 0.85,
+    refreshColour = "#ffffff",
+    css = "padding: 4.8em 3.5em !important; box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1) !important;"
   ),
+  busy_start_up(
+    loader = tags$img(
+      src = "img/loading_gris.gif",
+      width = 100
+    ),
+    #text = "Loading...",
+    mode = "auto",
+    #timeout = 3500,
+    color = "#435b69",
+    background = "#FFF"
+  ),
+  langSelectorInput("lang", position = "fixed"),
   langSelectorInput("lang", position = "fixed"),
   panel(title = ui_("upload_data"),
         collapse = TRUE,
@@ -131,6 +147,7 @@ server <- function(input, output, session) {
     tryCatch(hotr("data_input", data = inputData()(), options = list(height = 530)), 
              error = function(e) {infomessage(HTML(i_("data_error", lang = lang())))})
   })
+  
   
   
   
@@ -262,18 +279,7 @@ server <- function(input, output, session) {
   })
   
   
-  
-  
-  output$aver <- renderPrint({
-    print(var_plot())
-    print(ftype_draw())
-    print(input$grouping)
-    data_draw()
-    
-  })
-  
-  
-  
+
   ###########################
   
   ftype_draw <- reactive({
@@ -346,7 +352,7 @@ server <- function(input, output, session) {
   data_cat <- reactive({
     if (is.null(inputData()())) return()
     req(dic_draw())
-    print(dic_draw()$label[dic_draw()$hdType %in% c("Cat", "Yea")])
+    #print(dic_draw()$label[dic_draw()$hdType %in% c("Cat", "Yea")])
     dic_draw()$label[dic_draw()$hdType %in% c("Cat", "Yea")]
   })
   viz_select <- reactive({
@@ -502,29 +508,11 @@ server <- function(input, output, session) {
   
   # Valores de URL ----------------------------------------------------------
   
-  info_url <- reactiveValues(id = NULL)
-  observe({
-    query <- parseQueryString(session$clientData$url_search)
-    if (identical(query, list())) return()
-    info_url$id <- query
+  par <- list(user_name = "test", org_name = NULL, plan = "basic")
+  url_par <- reactive({
+    url_params(par, session)
   })
-  info_org <- reactiveValues(name = NULL, id = NULL, org = "public")
   
-  observe({
-    info_url <- info_url$id
-    if (is.null(info_url)) return()
-    available_params <- names(info_url)
-    
-    if ("org" %in% available_params) {
-      info_org$org <- info_url$org }
-    
-    if ("org_name" %in% available_params) {
-      info_org$name <- info_url$org_name }
-    
-    if ("org_id" %in% available_params) {
-      info_org$id <- info_url$org_id }
-    
-  })
   
   
   
@@ -532,14 +520,20 @@ server <- function(input, output, session) {
   
   # Adicionar theme ---------------------------------------------------------
   
-  
   theme_load <- reactive({
     theme_select <- input$theme
-    #print(info_org$org)
     if (is.null(theme_select)) return()
-    th <- dsthemer_get(info_org$org, theme = theme_select)
+    orgName <- url_par()$inputs$org_name %||% "public"
+    if (! orgName %in% dsthemer::dsthemer_list()) orgName <- "public"
+    th <- dsthemer_get(orgName, theme = theme_select)
     if (is.null(th)) return()
     th
+  })
+  
+  fontFamily_opts <- reactive({
+    req(theme_load())
+    unique(c(theme_load()$text_family,  "Roboto", "Inconsolata", "Open Sans", "Lato", "Noto Sans", "Nunito", "Karla", "Cutive Mono", "Newsreader", "PT Serif",
+             "Cinzel", "Suravaram", "Montserrat", "Oswald", "Dosis"))
   })
   
   background <- reactive({
@@ -570,11 +564,12 @@ server <- function(input, output, session) {
   # 
   opts_viz <- reactive({
     
-    if (is.null(info_org$org)) return()
+    orgName <- url_par()$inputs$org_name %||% "public"
+    if (! orgName %in% dsthemer::dsthemer_list()) orgName <- "public"
     opts_viz <- parmesan_input()
     if (is.null(opts_viz)) return()
     opts_viz <- opts_viz[setdiff(names(opts_viz), c('theme'))]
-    opts_viz$logo <- info_org$org
+    opts_viz$logo <- orgName 
     opts_viz
   })
   
@@ -614,59 +609,49 @@ server <- function(input, output, session) {
   
   
   output$download <- renderUI({
-    lb <- i_("download_viz", lang())
-    dw <- i_("download", lang())
-    gl <- i_("get_link", lang())
-    mb <- list(textInput("name", i_("gl_name", lang())),
-               textInput("description", i_("gl_description", lang())),
-               selectInput("license", i_("gl_license", lang()), choices = c("CC0", "CC-BY")),
-               selectizeInput("tags", i_("gl_tags", lang()), choices = list("No tag" = "no-tag"), multiple = TRUE, options = list(plugins= list('remove_button', 'drag_drop'))),
-               selectizeInput("category", i_("gl_category", lang()), choices = list("No category" = "no-category")))
-    downloadDsUI("download_data_button", dropdownLabel = lb, text = dw, formats = c("jpeg", "png", "svg", "pdf"), 
-                 display = "dropdown", dropdownWidth = 180, getLinkLabel = gl, modalTitle = gl, modalBody = mb,
-                 modalButtonLabel = i_("gl_save", lang()), modalLinkLabel = i_("gl_url", lang()), modalIframeLabel = i_("gl_iframe", lang()),
-                 modalFormatChoices = c("PNG" = "png", "SVG" = "svg"))
+    
+    downloadDsUI("download_data_button",
+                 display = "dropdown",
+                 formats = c("svg","jpeg", "pdf", "png"),
+                 dropdownWidth = 170,
+                 modalFormatChoices = c("PNG" = "png", "SVG" = "svg"),
+                 text = i_("download", lang()), 
+                 dropdownLabel = i_("download_viz", lang()), 
+                 getLinkLabel = i_("get_link", lang()), 
+                 modalTitle = i_("get_link", lang()), 
+                 modalButtonLabel = i_("gl_save", lang()), 
+                 modalLinkLabel = i_("gl_url", lang()), 
+                 modalIframeLabel = i_("gl_iframe", lang()),
+                 nameLabel = i_("gl_name", lang()),
+                 descriptionLabel = i_("gl_description", lang()),
+                 sourceLabel = i_("gl_source", lang()),
+                 sourceTitleLabel = i_("gl_source_name", lang()),
+                 sourcePathLabel = i_("gl_source_path", lang()),
+                 licenseLabel = i_("gl_license", lang()),
+                 tagsLabel = i_("gl_tags", lang()),
+                 tagsPlaceholderLabel = i_("gl_type_tags", lang()),
+                 categoryLabel = i_("gl_category", lang()),
+                 categoryChoicesLabels = i_("gl_no_category", lang())
+    )
   })
-  
-  
-  
-  par <- list(user_name = "brandon")
-  url_par <- reactive({
-    url_params(par, session)
-  })
-  
-  pin_ <- function(x, bkt, ...) {
-    x <- dsmodules:::eval_reactives(x)
-    bkt <- dsmodules:::eval_reactives(bkt)
-    nm <- input$`download_data_button-modal_form-name`
-    if (!nzchar(input$`download_data_button-modal_form-name`)) {
-      nm <- paste0("saved", "_", gsub("[ _:]", "-", substr(as.POSIXct(Sys.time()), 1, 19)))
-      updateTextInput(session, "download_data_button-modal_form-name", value = nm)
-    }
-    dv <- dsviz(x,
-                name = nm,
-                description = input$`download_data_button-modal_form-description`,
-                license = input$`download_data_button-modal_form-license`,
-                tags = input$`download_data_button-modal_form-tags`,
-                category = input$`download_data_button-modal_form-category`)
-    dspins_user_board_connect(bkt)
-    Sys.setlocale(locale = "en_US.UTF-8")
-    pin(dv, bucket_id = bkt)
-  }
   
   
   observe({
     req(gg_viz())
-    if (is.null(url_par()$inputs$user_name)) return()
-    
-    downloadDsServer("download_data_button", element = reactive(gg_viz()),
+    user_name <- url_par()$inputs$user_name
+    org_name <- url_par()$inputs$org_name 
+    if (is.null(user_name) & is.null(user_name)) return()
+    downloadDsServer(id = "download_data_button",
+                     element = reactive(gg_viz()),
                      formats = c("svg", "jpeg", "pdf", "png"),
                      errorMessage = i_("error_down", lang()),
-                     modalFunction = pin_, reactive(gg_viz()),
-                     bkt = url_par()$inputs$user_name)
+                     elementType = "dsviz",
+                     user_name = user_name,
+                     org_name = org_name)
   })
   
   
+
   
 
 }

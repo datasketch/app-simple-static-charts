@@ -28,6 +28,7 @@ caption: Créditos
 hor_title: Título eje horizontal
 ver_title: Título eje vertical
 grouping: Agrupación
+text_family: tipografía
 theme: Tema
 background_color: Color de fondo
 graph_style: Estilo gráfico
@@ -81,16 +82,21 @@ legend_show: Mostrar leyenda
 download_plot: Descargas
 error_down: ¡Oh, algo a sucedido!, por favor intenta más tarde.
 download_viz: Descarga
-get_link: Obtener enlace
+get_link: Guardar / Publicar
 gl_name: Nombre
 gl_slug: Slug
 gl_description: Descripción
+gl_source: Fuente
+gl_source_name: Título
+gl_source_path: URL
 gl_license: Licencia
 gl_tags: Etiquetas
+gl_type_tags: Presiona enter para agregar cada etiqueta
 gl_category: Categorías
+gl_no_category: Sin categoría
 gl_save: Guardar en dslibrary
-gl_url: URL
 gl_iframe: Copiar para embeber
+gl_url: URL
 data_wait: Esperamos tu data para empezar a gráficar, si estas explorando recuerda que puedes jugar con los ejemplos de prueba para que aprendas más sobre el uso de la herramienta.
 data_error: Se ha producido un error al cargar tu base de datos, puedes verificar que&#58; <br/> <ul> <li>La extensión del archivo sea XLS/XLSX ó CSV</li><li>El archivo no tenga codigos extraños, esto puede pasar cuando la codificación es distinta a UTF8</li></ul> 
 ftype_ms: Por ahora no tenemos un gráfico para esa combinación de variables elegida..

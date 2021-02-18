@@ -10,6 +10,7 @@ titles:
 graph_style:
   label: graph_style
   inputs:
+    #- text_family
     - theme
     - background_color
     - color_by
